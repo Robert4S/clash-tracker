@@ -17,7 +17,7 @@ defmodule ClashWeb.Router do
   scope "/", ClashWeb do
     pipe_through(:browser)
 
-    get("/", PageController, :home)
+    live("/*path", CountLive.Index)
 
     live("/games", GameLive.Index, :index)
     live("/games/new", GameLive.Index, :new)

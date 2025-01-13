@@ -4,9 +4,9 @@ defmodule Clash.Games.Game do
 
   schema "games" do
     field :date, :string
-    field :opponent, :string
     field :my_crowns, :integer
     field :opponent_crowns, :integer
+    belongs_to :opponent, Clash.Games.Opponent
 
     timestamps(type: :utc_datetime)
   end

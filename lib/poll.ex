@@ -1,4 +1,9 @@
 defmodule Clash.Poll do
+  alias Ecto.Repo
+  alias Ecto.Repo
+  alias Clash.Games.Game
+  alias Clash.Repo
+  alias Clash.Games.Opponent
   alias Clash.Games
   use GenServer
 
@@ -25,6 +30,9 @@ defmodule Clash.Poll do
       Games.list_games()
       |> Enum.map(& &1.date)
 
+    # IO.inspect(Enum.at(battles, 0))
+
+    # IO.inspect(Repo.all(Game))
     # for x <- battles, do: IO.inspect(x)
 
     for x <- battles,
@@ -32,12 +40,21 @@ defmodule Clash.Poll do
       team = x["team"] |> Enum.at(0)
       opponent = x["opponent"] |> Enum.at(0)
 
-      Games.create_game(%{
+      opponent_s =
+        case Repo.opponent_by_name(opponent["name"]) do
+          [] -> Repo.insert!(%Opponent{name: opponent["name"]})
+          [other] -> other
+        end
+
+      game = %{
         date: x["battleTime"],
-        opponent: opponent["name"],
         my_crowns: team["crowns"],
         opponent_crowns: opponent["crowns"]
-      })
+      }
+
+      opponent = Ecto.build_assoc(opponent_s, :games, game)
+      IO.inspect(opponent)
+      Repo.insert!(opponent)
     end
   end
 
