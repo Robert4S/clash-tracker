@@ -8,10 +8,11 @@ defmodule Clash.Poll do
   use GenServer
 
   defp get_battles() do
+    key = System.get_env("ROYALE_API_KEY")
     req =
       Finch.build(:get, "https://api.clashroyale.com/v1/players/%23C2JPVQCQ2/battlelog", [
         {"Authorization",
-         "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6ImIxMjI2NmRmLWRmZDItNDg1ZC1iYThhLTg4N2M0MjUwN2NlZCIsImlhdCI6MTczMTUyNTY5NSwic3ViIjoiZGV2ZWxvcGVyLzEzYjgwYzFlLTAxMTYtNDc0ZS1mOTQwLWM2NTE2NTIyNzA2NSIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyI5MC4xNjguNTAuMjI5Il0sInR5cGUiOiJjbGllbnQifV19.NYxuBmRKBxreCxuaCkaO8-pRrPPGxqq5WHfTt6BrHLHkOEQ2iBttZs3nBGjUT298HOXFBDCaWuwBL6o2W53ufw"}
+         "Bearer #{key}"}
       ])
       |> Finch.request!(Clash.Finch)
 
