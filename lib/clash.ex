@@ -4,6 +4,7 @@ defmodule Clash do
   and business logic.
 
   This is a change
+  This too
 
   Contexts are also responsible for managing your data, regardless
   if it comes from the database, an external API or others.
